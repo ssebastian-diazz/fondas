@@ -353,7 +353,7 @@ button,input,select{font:inherit;color:inherit;border-radius:0}
 <script>
 // datos: fondas_web.json (generado desde la hoja de Google con scripts/hoja.py) y polígonos de alcaldías
 let FONDAS = [], ALC_GEO = {features:[]};
-const MAP_KEY = "AAPTaTfgCKdJ-fFZKSltyf9bDmg..Z1OqTO_MqfJQl-qePjhk4iFFawrCJ_AiYFHH6yIo-Repe5keRW0Z0vWANE8F2ZIQ48QFB7rS56cxEWZMhIS8h0f7WxHdOewiYlCO67YTCUtxsqnwscjlSisV7Yu6dbKnE6TdNjnELid2zk3tk8oWF_NgvUaQmLuXtgVfRFCSUVDEcijbCEXPHWChM0ymqUYHrdmhbIM8Q9O9z4AD08NsmNcViMVBkQRfyJ7n0rZdomeKhgc8ur2Tz4rCb7kE68f1AT1_80rfvcn0", MAP_STYLE = 'arcgis/streets';
+const MAP_KEY = "AAPTaF4eOxKffkWbV34ohgJFzLQ..NkHv1oePICHaEsO1qCQKiNfmxcnpBn8mJW0eTlUlWcp3dlZURKWoGpatbWOjdtNH9_W4aex8RVCHZAwGU0KVXAtuJnNnLffHdebPfgK26_JRbRfem4qCa3bjzCUkwCBVDxdQ7m0ts5lv8g5yCEW9_Cumg_lNtiircaijTFYS996OPWkvtqeJ4oB1xGD93Q1DHaqPq7uojBix-kWicQvaEZ2ZdVABEuXCkx-ixebvEnU-YyCuMQnsuDX_qMFCDJzPAT1_80rfvcn0", MAP_STYLE = 'arcgis/streets';
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const norm = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
