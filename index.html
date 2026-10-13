@@ -182,7 +182,11 @@ button,input,select{font:inherit;color:inherit;border-radius:0}
 .foot ul a{display:inline-flex;align-items:center;gap:10px}
 .foot ul a:hover span{text-decoration:underline;text-underline-offset:3px}
 .foot ul svg{width:20px;height:20px;fill:currentColor;flex:none}
-.foot-apoyo{text-align:right}
+.foot-apoyo{text-align:right;margin-top:45px}
+.foot-ah h2{font-size:19px;margin-bottom:16px}
+.foot-ah ul:not(.redes){font-size:15.5px}
+.foot-dev h2{font-size:12px;margin-bottom:0}
+.foot-dev .redes svg{width:20px;height:20px}
 .foot .btn-apoyo{display:inline-block;background:var(--primary);color:var(--cream);padding:10px 22px;border:2px solid var(--primary)}
 .foot .btn-apoyo:hover{background:var(--cream);border-color:var(--cream);color:var(--green)}
 .foot .redes{display:flex;gap:16px;margin-top:16px}
@@ -192,7 +196,7 @@ button,input,select{font:inherit;color:inherit;border-radius:0}
 .foot-dev .redes{justify-content:center}
 .foot-kicker{margin:0 0 4px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;opacity:.75}
 .foot-logo{display:block;margin:26px auto 0;width:36px;height:36px;stroke:var(--cream);fill:none;stroke-width:7}
-@media (max-width:700px){.foot-cols{grid-template-columns:1fr;text-align:center}.foot-ah ul{justify-items:center}.foot .redes{justify-content:center}.foot-dev,.foot-apoyo{text-align:center;padding-top:24px;border-top:2px solid rgba(231,216,162,.3)}}
+@media (max-width:700px){.foot-cols{grid-template-columns:1fr;text-align:center}.foot-ah ul{justify-items:center}.foot .redes{justify-content:center}.foot-apoyo{margin-top:0}.foot-dev,.foot-apoyo{text-align:center;padding-top:24px;border-top:2px solid rgba(231,216,162,.3)}}
 
 /* zonas */
 .zones .chip{display:inline-flex;align-items:center;gap:6px}
@@ -411,8 +415,7 @@ button,input,select{font:inherit;color:inherit;border-radius:0}
       </ul>
     </section>
     <section class="foot-apoyo" data-pie="apoyo" hidden>
-      <h2>Apoya este proyecto</h2>
-      <a class="btn-apoyo" target="_blank" rel="noopener">Apoyar</a>
+      <a class="btn-apoyo" target="_blank" rel="noopener">Apoya este proyecto</a>
     </section>
   </div>
   <svg class="foot-logo" viewBox="0 0 64 64" role="img" aria-label="Tenedor"><path d="M18.5 8V30M32 8V30M45.5 8V30M18.5 28V34Q18.5 43 32 43Q45.5 43 45.5 34V28M32 40V58"/></svg>
