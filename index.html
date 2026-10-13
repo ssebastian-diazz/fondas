@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>100 Fondas 100 Días</title>
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_MX">
+<meta property="og:site_name" content="Alerta Hambre">
+<meta property="og:title" content="100 Fondas 100 Días: mapa interactivo">
+<meta property="og:description" content="Las 100 fondas de la serie de Alerta Hambre en un mapa: calificación, precio, qué incluye el menú, horario y ubicación.">
+<meta property="og:url" content="https://fondas.nodosmap.com/">
+<meta property="og:image" content="https://fondas.nodosmap.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mapa de la Ciudad de México con las fondas marcadas y su calificación">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -454,6 +465,8 @@ function mkIcon(f,on){
   const l=labelFor(f), fg=lum(l.bg)>0.58?'#3d6135':'#f6efd0';
   return L.divIcon({className:'mkw',html:`<div class="mk${on?' on':''}${f.dot&&!on?' dot':''}" style="background:${l.bg};color:${fg}" aria-label="${esc(f.nombre_mapa)}">${esc(l.text)}<div class="mk-card"><span class="mk-thumb"><img class="mk-img" alt="" data-src="${thumb(f.video_id)}"></span><span class="mk-name">${esc(f.nombre_mapa)}</span></div></div>`,iconSize:[0,0]});
 }
+// En celular la atribución (larga) se enrolla y tapa el selector: va en la misma esquina, debajo de él.
+if(matchMedia('(max-width:900px)').matches) map.attributionControl.setPosition('bottomleft');
 const LabelCtl = L.control({position:'bottomleft'});
 LabelCtl.onAdd = () => {
   const d = L.DomUtil.create('div','lblctl');
