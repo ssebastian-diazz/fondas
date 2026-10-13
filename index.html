@@ -174,8 +174,14 @@ button,input,select{font:inherit;color:inherit;border-radius:0}
 .bar.na .t{border-style:dashed}
 .ul{margin:0;padding-left:18px;font-size:14px}
 .fa{display:flex;gap:8px;flex-wrap:wrap;padding:14px 16px 20px;border-top:3px solid var(--green)}
-.foot{border-top:3px solid var(--green);padding:14px 20px;text-align:center;font-size:13px}
+.foot{border-top:3px solid var(--green);padding:22px 20px 20px;font-size:14px}
+.foot-cols{display:flex;justify-content:center;flex-wrap:wrap;gap:20px 64px}
+.foot h2{font-family:var(--font-head);font-weight:900;font-size:14px;text-transform:uppercase;margin:0 0 8px}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
 .foot a{color:inherit;font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.foot .btn-apoyo{display:inline-block;background:var(--primary);color:var(--cream);padding:8px 18px;text-decoration:none}
+.foot-logo{display:block;margin:20px auto 0}
+@media (max-width:700px){.foot-cols{flex-direction:column;align-items:center;text-align:center}}
 
 /* zonas */
 .zones .chip{display:inline-flex;align-items:center;gap:6px}
@@ -275,7 +281,7 @@ button,input,select{font:inherit;color:inherit;border-radius:0}
 .mk-card{display:none}
 @media (hover:hover) and (pointer:fine){
   .leaflet-marker-icon.mkw:hover{z-index:10000!important}
-  .mk-card{display:flex;position:absolute;left:50%;bottom:calc(100% + 10px);width:232px;background:var(--cream);color:var(--green);border:3px solid var(--green);box-shadow:4px 4px 0 var(--primary);opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,16px) scale(.94);transform-origin:50% 100%;transition:opacity .18s ease,transform .24s cubic-bezier(.2,.8,.2,1),visibility 0s linear .24s;white-space:normal;text-align:left;line-height:1.2;font-weight:700;cursor:pointer}
+  .mk-card{display:flex;position:absolute;left:50%;bottom:calc(100% + 10px);width:300px;background:var(--cream);color:var(--green);border:3px solid var(--green);box-shadow:4px 4px 0 var(--primary);opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,16px) scale(.94);transform-origin:50% 100%;transition:opacity .18s ease,transform .24s cubic-bezier(.2,.8,.2,1),visibility 0s linear .24s;white-space:normal;text-align:left;line-height:1.2;font-weight:700;cursor:pointer}
   .mk-card::after{content:"";position:absolute;left:0;right:0;top:100%;height:14px}
   .mk:hover .mk-card{opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0) scale(1);transition-delay:0s}
   .mk.below .mk-card{bottom:auto;top:calc(100% + 10px);transform-origin:50% 0;transform:translate(-50%,-16px) scale(.94)}
@@ -283,7 +289,14 @@ button,input,select{font:inherit;color:inherit;border-radius:0}
   .mk.below:hover .mk-card{transform:translate(-50%,0) scale(1)}
   .mk-thumb{display:block;flex:none;width:86px;height:152px;overflow:hidden;background:var(--green)}
   .leaflet-container .leaflet-marker-pane .mk-img{display:block;width:100%!important;height:100%!important;object-fit:cover;object-position:center}
-  .mk-name{display:flex;align-items:center;flex:1;padding:10px 12px;font-family:var(--font-head);font-weight:900;font-size:13px;text-transform:uppercase;overflow-wrap:anywhere}
+  .mk-info{display:flex;flex-direction:column;justify-content:center;gap:9px;flex:1;min-width:0;padding:10px 12px}
+  .mk-name{font-family:var(--font-head);font-weight:900;font-size:13px;text-transform:uppercase;overflow-wrap:anywhere}
+  .mk-stats{display:flex;gap:6px}
+  .mk-stat{display:block;border:2px solid var(--green);padding:3px 7px 4px;min-width:0}
+  .mk-stat small{display:block;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
+  .mk-stat b{display:block;font-family:var(--font-head);font-weight:900;font-size:17px;line-height:1.15}
+  .mk-stat.r{background:var(--primary);border-color:var(--primary);color:var(--cream)}
+  .mk-state{display:flex;flex-wrap:wrap;align-items:center;gap:2px 0;font-size:12px}
 }
 @media (max-width:900px){.gbar{grid-template-columns:1fr}.gspace{display:none}.gright{justify-self:stretch}.gbar .search--sm{width:100%}}
 /* ordenar */
@@ -359,7 +372,23 @@ button,input,select{font:inherit;color:inherit;border-radius:0}
     <aside class="ficha" id="ficha" aria-label="Ficha de la fonda" aria-hidden="true"></aside>
   </div>
 </main>
-<footer class="foot">Mapa interactivo por <a href="https://www.instagram.com/p/Dd7sG6iPB3A/" target="_blank" rel="noopener">Sebastian Diaz</a>. Datos tomados de los episodios del canal.</footer>
+<footer class="foot">
+  <div class="foot-cols">
+    <section>
+      <h2>Sebastian Diaz</h2>
+      <ul>
+        <li><a href="https://github.com/ssebastian-diazz" target="_blank" rel="noopener">GitHub</a></li>
+        <li data-pie="linkedin" hidden><a target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://www.instagram.com/p/Dd7sG6iPB3A/" target="_blank" rel="noopener">Instagram</a></li>
+      </ul>
+    </section>
+    <section data-pie="apoyo" hidden>
+      <h2>Apoya este proyecto</h2>
+      <a class="btn-apoyo" target="_blank" rel="noopener">Apoyar</a>
+    </section>
+  </div>
+  <img class="foot-logo" src="favicon.svg" width="36" height="36" alt="">
+</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/esri-leaflet@3.0.12/dist/esri-leaflet.js"></script>
@@ -433,6 +462,13 @@ function statusHtml(f){
     : `<span class="badge-closed">Cerrado</span><span>${esc(nextTxt(st))}</span>`;
 }
 
+// Enlaces del pie que se llenan aparte. Vacío = no se muestra. El de apoyo tampoco sale dentro de un iframe (página de otra persona).
+const PIE = {linkedin:'', apoyo:''};
+document.querySelectorAll('[data-pie]').forEach(el=>{
+  const u=PIE[el.dataset.pie];
+  if(!u || (el.dataset.pie==='apoyo' && window.self!==window.top)) return;
+  (el.matches('a')?el:el.querySelector('a')).href=u; el.hidden=false;
+});
 function main(){
 const map = L.map('map').setView([19.4,-99.15],12);
 // Mapa base: con llave de ArcGIS Location Platform (build_prod.py la toma de privado/arcgis_key.txt) usa el servicio
@@ -461,9 +497,14 @@ function labelFor(f){
   const r=rating(f), t=Math.max(0,Math.min(1,((r||7)-7)/3));
   return {text:fmt(r), bg:mix('#f1e0b0','#8a4a14',t)};
 }
+function cardInfo(f){
+  const r=rating(f), p=f.precio_menu, s=statusHtml(f);
+  const stats=(r!=null?`<span class="mk-stat r"><small>Calificación</small><b>${fmt(r)}</b></span>`:'')+(p!=null?`<span class="mk-stat"><small>Menú del día</small><b>$${p}</b></span>`:'');
+  return (stats?`<span class="mk-stats">${stats}</span>`:'')+(s?`<span class="mk-state">${s}</span>`:'');
+}
 function mkIcon(f,on){
   const l=labelFor(f), fg=lum(l.bg)>0.58?'#3d6135':'#f6efd0';
-  return L.divIcon({className:'mkw',html:`<div class="mk${on?' on':''}${f.dot&&!on?' dot':''}" style="background:${l.bg};color:${fg}" aria-label="${esc(f.nombre_mapa)}">${esc(l.text)}<div class="mk-card"><span class="mk-thumb"><img class="mk-img" alt="" data-src="${thumb(f.video_id)}"></span><span class="mk-name">${esc(f.nombre_mapa)}</span></div></div>`,iconSize:[0,0]});
+  return L.divIcon({className:'mkw',html:`<div class="mk${on?' on':''}${f.dot&&!on?' dot':''}" style="background:${l.bg};color:${fg}" aria-label="${esc(f.nombre_mapa)}">${esc(l.text)}<div class="mk-card"><span class="mk-thumb"><img class="mk-img" alt="" data-src="${thumb(f.video_id)}"></span><span class="mk-info"><span class="mk-name">${esc(f.nombre_mapa)}</span>${cardInfo(f)}</span></div></div>`,iconSize:[0,0]});
 }
 // En celular la atribución (larga) se enrolla y tapa el selector: va en la misma esquina, debajo de él.
 if(matchMedia('(max-width:900px)').matches) map.attributionControl.setPosition('bottomleft');
