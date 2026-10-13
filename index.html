@@ -491,7 +491,7 @@ function statusHtml(f){
 }
 
 // Enlaces del pie que se llenan aparte. Vacío = no se muestra. El de apoyo tampoco sale dentro de un iframe (página de otra persona).
-const PIE = {linkedin:'https://www.linkedin.com/in/sebasti%C3%A1n-d%C3%ADaz-prado-0780731bb/', apoyo:''};
+const PIE = {linkedin:'https://www.linkedin.com/in/sebasti%C3%A1n-d%C3%ADaz-prado-0780731bb/', apoyo:'https://buy.stripe.com/8x2fZb7C8e7NdtW8yc4gg01'};
 document.querySelectorAll('[data-pie]').forEach(el=>{
   const u=PIE[el.dataset.pie];
   if(!u || (el.dataset.pie==='apoyo' && window.self!==window.top)) return;
