@@ -251,6 +251,9 @@ button,input,select{font:inherit;color:inherit;border-radius:0}
 /* ordenar en la lista */
 .sortbar{padding:10px 12px;border-bottom:3px solid var(--green);background:var(--cream-light)}
 .sortbar .lbl{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.sortrow{display:grid;grid-template-columns:1fr;gap:6px}
+
+.sortrow select{padding:8px 26px 8px 10px;font-size:14px;text-overflow:ellipsis;background-position:right 9px center}
 .nowtxt{font-size:13px;font-weight:700;margin-top:8px}
 
 /* desplegables de filtro en la fila del buscador */
@@ -376,12 +379,15 @@ button,input,select{font:inherit;color:inherit;border-radius:0}
   <aside class="panel" aria-label="Filtros y lista">
     <div class="sortbar">
       <span class="lbl">Ordenar por</span>
-      <select id="sortSel" aria-label="Ordenar por">
-        <option value="rating">Calificación</option>
-        <option value="price">Precio</option>
-        <option value="closing">Cierran más tarde</option>
-        <option value="name">A-Z</option>
-      </select>
+      <div class="sortrow">
+        <select id="sortSel" aria-label="Ordenar por">
+          <option value="rating">Calificación</option>
+          <option value="price">Precio</option>
+          <option value="name">Nombre</option>
+          <option value="closing">Horario</option>
+        </select>
+        <select id="dirSel" aria-label="Sentido del orden"></select>
+      </div>
       <div class="nowtxt" id="nowtxt"></div>
     </div>
     <ul class="list" id="list"><li class="loading">Cargando fondas…</li></ul>
@@ -456,7 +462,7 @@ const IC = {
 function payItem(icon,label,on){return `<span class="payi ${on?'':'off'}">${IC[icon].replace('<svg ','<svg class="ico" ')}${label}${on?CK:CKNO}</span>`;}
 const CK = '<span class="ck" aria-hidden="true">'+IC.yes+'</span>';
 const CKNO = '<span class="ck no" aria-hidden="true">'+IC.no+'</span>';
-const state = {q:'',alc:'',pmax:Infinity,rmin:0,pago:new Set(),veg:false,inc:new Set(),tags:new Set(),sort:'rating',sel:null,open:false,left:0};
+const state = {q:'',alc:'',pmax:Infinity,rmin:0,pago:new Set(),veg:false,inc:new Set(),tags:new Set(),sort:'rating',dir:0,sel:null,open:false,left:0};
 
 // ---- hora actual (CDMX) o simulada ----
 const SIM = {on:false,day:0,min:0};
@@ -618,15 +624,28 @@ chips($('#pagoChips'),['t','x'],state.pago,k=>({t:'Acepta tarjeta',x:'Acepta tra
 $('#q').addEventListener('input',e=>{state.q=norm(e.target.value.trim());render();});
 pm.addEventListener('input',()=>{state.pmax=+pm.value;render();});
 $('#clear').addEventListener('click',()=>{
-  Object.assign(state,{q:'',alc:'',pmax:+pm.max,sort:'rating'});
+  Object.assign(state,{q:'',alc:'',pmax:+pm.max,sort:'rating',dir:0});
   state.pago.clear(); $('#q').value=''; pm.value=pm.max;
   document.querySelectorAll('#pagoChips .chip, #alcChips .chip').forEach(c=>c.setAttribute('aria-pressed','false'));
-  $('#sortSel').value='rating';
+  $('#sortSel').value='rating'; fillDir();
   showAlc(state.alc);
   render();
 });
 
-$('#sortSel').addEventListener('change',e=>{ state.sort=e.target.value; render(); });
+// Cada criterio tiene dos sentidos; "asc" dice si el primero va de menor a mayor.
+const SORTS = {
+  rating:[['Mayor a menor',false],['Menor a mayor',true]],
+  price:[['Menor a mayor',true],['Mayor a menor',false]],
+  name:[['A-Z',true],['Z-A',false]],
+  closing:[['Cierran más tarde',false],['Cierran más temprano',true]]
+};
+function fillDir(){
+  $('#dirSel').innerHTML = SORTS[state.sort].map((o,i)=>`<option value="${i}">${o[0]}</option>`).join('');
+  $('#dirSel').value = state.dir;
+}
+$('#sortSel').addEventListener('change',e=>{ state.sort=e.target.value; state.dir=0; fillDir(); render(); });
+$('#dirSel').addEventListener('change',e=>{ state.dir=+e.target.value; render(); });
+fillDir();
 
 
 function match(f){
@@ -650,7 +669,15 @@ function render(){
   const _n=nowMx(); $('#nowtxt').textContent='Ahora: '+cap(DIA_N[_n.day])+' '+hm(_n.min);
   $('#pmaxv').textContent = state.pmax>=+pm.max ? 'sin límite' : '$'+state.pmax;
   const rows = FONDAS.filter(match);
-  const cmp = {rating:(a,b)=>(rating(b)||0)-(rating(a)||0), price:(a,b)=>(a.precio_menu??1e9)-(b.precio_menu??1e9), name:(a,b)=>a.nombre_mapa.localeCompare(b.nombre_mapa,'es'), closing:(a,b)=>{const n=nowMx();const sa=status(a,n),sb=status(b,n);const la=sa&&sa.open?sa.left:-1,lb=sb&&sb.open?sb.left:-1;return lb-la;}}[state.sort];
+  const asc = SORTS[state.sort][state.dir][1], sg = asc?1:-1;
+  const num = val => (a,b)=>{ const x=val(a), y=val(b); if(x==null||y==null) return x==null&&y==null ? 0 : x==null ? 1 : -1; return (x-y)*sg; };
+  const n0 = nowMx();
+  const cmp = {
+    rating:num(f=>rating(f)),
+    price:num(f=>f.precio_menu),
+    name:(a,b)=>a.nombre_mapa.localeCompare(b.nombre_mapa,'es')*sg,
+    closing:num(f=>{ const st=status(f,n0); return st&&st.open ? st.left : null; })
+  }[state.sort];
   rows.sort(cmp);
   layer.clearLayers(); shown = rows; rows.forEach(f=>layer.addLayer(f.m)); drawMarkers();
   $('#list').innerHTML = rows.length ? rows.map(f=>`<li><button class="item" type="button" data-i="${f.indice}" aria-current="${state.sel===f.indice}">
