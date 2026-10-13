@@ -254,6 +254,10 @@ button,input,select{font:inherit;color:inherit;border-radius:0}
 .sortrow{display:grid;grid-template-columns:1fr;gap:6px}
 
 .sortrow select{padding:8px 26px 8px 10px;font-size:14px;text-overflow:ellipsis;background-position:right 9px center}
+.dirrow{display:flex;flex-wrap:wrap;gap:4px 18px;padding:0 2px}
+.dirbtn{background:none;border:0;padding:2px 0;font:inherit;font-size:13.5px;font-weight:700;color:var(--green);opacity:.55;cursor:pointer;text-underline-offset:4px}
+.dirbtn:hover{opacity:1;color:var(--primary)}
+.dirbtn[aria-pressed="true"]{color:var(--primary);opacity:1;text-decoration:underline}
 .nowtxt{font-size:13px;font-weight:700;margin-top:8px}
 
 /* desplegables de filtro en la fila del buscador */
@@ -386,7 +390,7 @@ button,input,select{font:inherit;color:inherit;border-radius:0}
           <option value="name">Nombre</option>
           <option value="closing">Horario</option>
         </select>
-        <select id="dirSel" aria-label="Sentido del orden"></select>
+        <div class="dirrow" id="dirRow" role="group" aria-label="Sentido del orden"></div>
       </div>
       <div class="nowtxt" id="nowtxt"></div>
     </div>
@@ -640,11 +644,14 @@ const SORTS = {
   closing:[['Cierran más tarde',false],['Cierran más temprano',true]]
 };
 function fillDir(){
-  $('#dirSel').innerHTML = SORTS[state.sort].map((o,i)=>`<option value="${i}">${o[0]}</option>`).join('');
-  $('#dirSel').value = state.dir;
+  $('#dirRow').innerHTML = SORTS[state.sort].map((o,i)=>`<button type="button" class="dirbtn" data-d="${i}" aria-pressed="${i===state.dir}">${o[0]}</button>`).join('');
 }
 $('#sortSel').addEventListener('change',e=>{ state.sort=e.target.value; state.dir=0; fillDir(); render(); });
-$('#dirSel').addEventListener('change',e=>{ state.dir=+e.target.value; render(); });
+$('#dirRow').addEventListener('click',e=>{
+  const b=e.target.closest('.dirbtn'); if(!b) return;
+  state.dir=+b.dataset.d; fillDir(); render();
+  $('#dirRow').querySelector(`[data-d="${state.dir}"]`).focus();
+});
 fillDir();
 
 
